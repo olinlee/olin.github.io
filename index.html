@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .danmu-container {
+            border: black 1px solid;
+            width: 450px;
+            height: 283px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+        }
+
+        .danmu-control {
+            width: 450px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .danmu {
+            position: absolute;
+            left: 450px;
+            margin: 0px;
+            color: red;
+            transition: left 8s linear;
+        }
+    </style>
+</head>
+
+<body>
+    <div class=danmu-container>
+        <video width="450" height="253" src="../../../util/v1.mp4"></video>
+        <div class=danmu-control>
+            <input type="text">
+        </div>
+    </div>
+    <script src="../../../util/tools.js"></script>
+    <script>
+            function random(start, end) {
+        if (arguments.length === ZERO) {
+            return ZERO;
+        } else if (arguments.length === 1) {
+            end = start;
+            start = ZERO;
+        } else {
+            if (end < start) {
+                [start, end] = [end, start]
+            }
+        }
+        return parseInt(Math.random() * (end - start)) + start;
+    }
+
+    function color(opcity = 1) {
+        return `rgba(${random(ZERO, 255)},${random(ZERO, 255)},${random(ZERO, 255)},${opcity})`
+    }
+        const danmuContainer = document.querySelector(".danmu-container");
+        document.querySelector(".danmu-control>input").addEventListener("keydown", function (e) {
+            if (e.which === 13) {
+                const content = this.value;
+                const danmu = document.createElement("p");
+                Object.assign(danmu.style, {
+                    top: random(200) + 'px',
+                    color: color()
+                });
+                danmu.className = "danmu";
+                danmu.innerHTML = content;
+                danmuContainer.appendChild(danmu);
+                // let left = 450, w = danmu.offsetWidth;
+
+                danmu.style.left = -danmu.offsetWidth + 'px';
+                setTimeout(()=>{
+                    danmu.remove();
+                },8100);
+
+            }
+        })
+    </script>
+</body>
+
+</html>
